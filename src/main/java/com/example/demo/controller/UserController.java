@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Users;
 import com.example.demo.service.UserService;
+
 
 @RestController
 @RequestMapping("/users")
@@ -31,7 +34,7 @@ public class UserController {
 		return "Hello";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST,consumes = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Users> addEmployee(@RequestBody Users users) {
 		userService.save(users);
 		logger.debug("Added:: " + users);
@@ -39,7 +42,7 @@ public class UserController {
 	}
 
 
-	@RequestMapping(method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT,consumes = MediaType.APPLICATION_JSON)
 	public ResponseEntity<Void> updateUser(@RequestBody Users users) {
 		Users existingEmp = userService.getById(users.getId());
 		if (existingEmp == null) {
@@ -53,7 +56,7 @@ public class UserController {
 
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Users> getUser(@PathVariable("id") Long id) {
+	public ResponseEntity<Users> getUser(@PathVariable("id") Integer id) {
 		Users users = userService.getById(id);
 		if (users == null) {
 			logger.debug("User with id " + id + " does not exists");
@@ -77,7 +80,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer id) {
 		Users users = userService.getById(id);
 		if (users == null) {
 			logger.debug("User with id " + id + " does not exists");

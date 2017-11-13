@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name ="users")
 public class Users {
@@ -22,16 +23,26 @@ public class Users {
 	@Column(name = "city", length = 50)
 	String city;
 	
-public Users()
-{
-	
+	public Users() {
+	}
+
+	public Users(Integer id) {
+		this.id = id;
+	}
+
+	public Users(String firstname, String lastname, String city) {
+	this.firstname = firstname;
+	this.lastname = lastname;
+	this.city = city;
 }
 	
-	
-	@Override
-	public String toString() {
-		return "Users [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", city=" + city + "]";
-	}
+
+	public Users(Integer id, String firstname, String lastname, String city) {
+	this.id = id;
+	this.firstname = firstname;
+	this.lastname = lastname;
+	this.city = city;
+}
 
 	public Integer getId() {
 		return id;
@@ -65,12 +76,27 @@ public Users()
 		this.city = city;
 	}
 
-	public Users(Integer id, String firstname, String lastname, String city) {
-		super();
-		this.id = id;
-		this.firstname = firstname;
-		this.lastname = lastname;
-		this.city = city;
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("id: ").append(this.id).append(", firstname: ").append(this.firstname).append(", lastname: ")
+				.append(this.lastname).append(", city: ").append(this.city);
+		return sb.toString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (id == null || obj == null || getClass() != obj.getClass())
+			return false;
+		Users toCompare = (Users) obj;
+		return id.equals(toCompare.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return id == null ? 0 : id.hashCode();
 	}
 	
 }
